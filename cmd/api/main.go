@@ -1,15 +1,25 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"flag"
+	"fmt"
+	"twitch_chat_analysis/app/pusher"
+	"twitch_chat_analysis/app/report"
+	"twitch_chat_analysis/app/worker"
 )
 
-func main() {
-	r := gin.Default()
+func Run() {
+	app := flag.String("app", "", "the application to run")
+	flag.Parse()
 
-	r.GET("/test", func(c *gin.Context) {
-		c.JSON(200, "worked")
-	})
-
-	r.Run()
+	switch *app {
+	case "pusher":
+		pusher.Run()
+	case "worker":
+		worker.Run()
+	case "report":
+		report.Run()
+	default:
+		fmt.Println("Invalid app name")
+	}
 }

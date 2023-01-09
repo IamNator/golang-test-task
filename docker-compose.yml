@@ -2,6 +2,39 @@ version: '3.6'
 
 services:
 
+  pusher:
+    build: .
+    command: [ "./api", "-app", "pusher" ]
+    env_file:
+      - .env.sample
+    container_name: pusher
+    depends_on:
+      - rabbitmq
+      - redis
+
+  worker:
+    build: .
+    command: [ "./api", "-app", "worker" ]
+    container_name: worker
+    env_file:
+      - .env.sample
+    depends_on:
+      - rabbitmq
+      - redis
+      - pusher
+
+  report:
+    build: .
+    command: [ "./api", "-app", "report" ]
+    container_name: report
+    env_file:
+      - .env.sample
+    depends_on:
+      - rabbitmq
+      - redis
+      - report
+
+
   rabbitmq:
     image: rabbitmq:3.7-management
     container_name: rabbitmq
@@ -15,6 +48,7 @@ services:
 
   redis:
     image: redis:5-alpine
+    container_name: redis
     ports:
       - 6379:6379
     restart: always
