@@ -49,7 +49,7 @@ func InitConfig() error {
 		}
 	})
 
-	return nil
+	return err
 }
 
 func getEnv(key string) (string, error) {

@@ -60,7 +60,7 @@ func (w App) SubscribeToQueue(queueName string) error {
 	go func() {
 		for msg := range msgs {
 			// Save the message to Redis
-			err := w.redisClient.Client.Set("message", string(msg.Body), 0).Err()
+			err := w.redisClient.Client.Set("message_"+msg.AppId, string(msg.Body), 0).Err()
 			if err != nil {
 				fmt.Println(err)
 			}

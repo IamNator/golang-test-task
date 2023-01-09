@@ -22,7 +22,7 @@ func (r App) GetMessages() ([]model.Message, error) {
 	// Connect to Redis
 
 	// Get all keys in Redis
-	keys, err := r.redisClient.Client.Keys("*").Result()
+	keys, err := r.redisClient.Client.Keys("message_*").Result()
 	if err != nil {
 		return nil, err
 	}
